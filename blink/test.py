@@ -36,8 +36,7 @@ def crop_eye(img, eye_points):
 
 # main
 cap = cv2.VideoCapture(0)
-desired_FPS = 30
-wait_time = int(1000 / desired_FPS)
+
 
 while cap.isOpened():
     ret, img_ori = cap.read()
@@ -46,9 +45,7 @@ while cap.isOpened():
         break
 
     img_ori = cv2.resize(img_ori, dsize=(0, 0), fx=0.5, fy=0.5)
-
     gray = cv2.cvtColor(img_ori, cv2.COLOR_BGR2GRAY)
-
     faces = detector(gray)
 
     for face in faces:
