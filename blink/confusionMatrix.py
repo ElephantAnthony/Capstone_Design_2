@@ -8,7 +8,7 @@ from keras.models import Model, load_model
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 
-from blink import start_time, x_val, y_val
+from train import start_time, x_val, y_val
 
 model = load_model('models/%s.h5' % (start_time))
 
