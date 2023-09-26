@@ -35,7 +35,7 @@ def crop_eye(img, eye_points):
 
 
 # main
-cap = cv2.VideoCapture('../blink_mp4.mp4')
+cap = cv2.VideoCapture(0)
 
 while cap.isOpened():
     ret, img_ori = cap.read()
