@@ -36,6 +36,8 @@ def crop_eye(img, eye_points):
 
 # main
 cap = cv2.VideoCapture(0)
+desired_FPS = 30
+wait_time = int(1000 / desired_FPS)
 
 while cap.isOpened():
     ret, img_ori = cap.read()
@@ -45,8 +47,7 @@ while cap.isOpened():
 
     img_ori = cv2.resize(img_ori, dsize=(0, 0), fx=0.5, fy=0.5)
 
-    img = img_ori.copy()
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(img_ori, cv2.COLOR_BGR2GRAY)
 
     faces = detector(gray)
 
@@ -60,9 +61,6 @@ while cap.isOpened():
         eye_img_l = cv2.resize(eye_img_l, dsize=IMG_SIZE)
         eye_img_r = cv2.resize(eye_img_r, dsize=IMG_SIZE)
         eye_img_r = cv2.flip(eye_img_r, flipCode=1)
-
-        cv2.imshow('l', eye_img_l)
-        cv2.imshow('r', eye_img_r)
 
         eye_input_l = eye_img_l.copy().reshape((1, IMG_SIZE[1], IMG_SIZE[0], 1)).astype(np.float32) / 255.
         eye_input_r = eye_img_r.copy().reshape((1, IMG_SIZE[1], IMG_SIZE[0], 1)).astype(np.float32) / 255.
@@ -78,21 +76,22 @@ while cap.isOpened():
         state_r = state_r % pred_r
 
         if state_l <= '0':
-            cv2.rectangle(img, pt1=tuple(eye_rect_l[0:2]), pt2=tuple(eye_rect_l[2:4]), color=(0, 0, 255), thickness=2)
-            cv2.putText(img, state_l, tuple(eye_rect_l[0:2]), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+            cv2.rectangle(img_ori, pt1=tuple(eye_rect_l[0:2]), pt2=tuple(eye_rect_l[2:4]), color=(0, 0, 255), thickness=2)
+            cv2.putText(img_ori, state_l, tuple(eye_rect_l[0:2]), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         else:
-            cv2.rectangle(img, pt1=tuple(eye_rect_l[0:2]), pt2=tuple(eye_rect_l[2:4]), color=(255, 255, 255),
+            cv2.rectangle(img_ori, pt1=tuple(eye_rect_l[0:2]), pt2=tuple(eye_rect_l[2:4]), color=(255, 255, 255),
                           thickness=2)
-            cv2.putText(img, state_l, tuple(eye_rect_l[0:2]), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+            cv2.putText(img_ori, state_l, tuple(eye_rect_l[0:2]), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 
         if state_r <= '0':
-            cv2.rectangle(img, pt1=tuple(eye_rect_r[0:2]), pt2=tuple(eye_rect_r[2:4]), color=(0, 0, 255), thickness=2)
-            cv2.putText(img, state_r, tuple(eye_rect_r[0:2]), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+            cv2.rectangle(img_ori, pt1=tuple(eye_rect_r[0:2]), pt2=tuple(eye_rect_r[2:4]), color=(0, 0, 255), thickness=2)
+            cv2.putText(img_ori, state_r, tuple(eye_rect_r[0:2]), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         else:
-            cv2.rectangle(img, pt1=tuple(eye_rect_r[0:2]), pt2=tuple(eye_rect_r[2:4]), color=(255, 255, 255),
+            cv2.rectangle(img_ori, pt1=tuple(eye_rect_r[0:2]), pt2=tuple(eye_rect_r[2:4]), color=(255, 255, 255),
                           thickness=2)
-            cv2.putText(img, state_r, tuple(eye_rect_r[0:2]), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+            cv2.putText(img_ori, state_r, tuple(eye_rect_r[0:2]), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 
-    cv2.imshow('result', img)
+    cv2.imshow('result', img_ori)
+
     if cv2.waitKey(1) == ord('q'):
         break
