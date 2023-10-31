@@ -9,14 +9,8 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 
 
-
-plt.style.use('dark_background')
-
 # CSV 파일 불러오기
 data = pd.read_csv('../eye_blink_detector-master/dataset/dataset.csv')
-
-# 데이터프레임 출력
-print(data.head())
 
 
 # load dataset
@@ -82,11 +76,10 @@ model.summary()
 start_time = datetime.datetime.now().strftime('%Y_%m_%H_%M_%S')
 
 model.fit(
-    train_genrator, epochs=50, validation_data = val_generator,
+    train_genrator, epochs=50, validation_data=val_generator,
     callbacks=[
         ModelCheckpoint('models/%s.h5' %(start_time), monitor='val_acc', save_best_only=True, mode='max',
                        verbose=1),
         ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, verbose=1, mode='auto', min_lr=1e-05)
     ]
 )
-
