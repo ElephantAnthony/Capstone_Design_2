@@ -10,4 +10,4 @@ learning_data_model.h5
 
 shape_predictor_68_face_landmarks (1).dat
 
-./models
+./blink/models
