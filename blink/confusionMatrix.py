@@ -1,12 +1,7 @@
-from sklearn.metrics import accuracy_score, confusion_matrix
+from le.metrics import accuracy_score, confusion_matrix
 import seaborn as sns
 
-import numpy as np
-import matplotlib.pyplot as plt
-from keras.layers import Input, Activation, Conv2D, Flatten, Dense, MaxPooling2D
 from keras.models import Model, load_model
-from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 
 from train import start_time, x_val, y_val
 
