@@ -11,3 +11,10 @@ learning_data_model.h5
 shape_predictor_68_face_landmarks (1).dat
 
 ./blink/models
+
+# Ignore data files like .csv, .tsv, .dat, .npz, .npy etc.
+*.csv
+*.tsv
+*.dat
+*.npz
+*.npy
